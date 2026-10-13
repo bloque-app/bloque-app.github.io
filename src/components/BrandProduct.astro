@@ -1,0 +1,252 @@
+---
+// One product on the Brand page: its lockups on paper and on ink, the symbol at the sizes it is
+// drawn for, the one-colour versions, and every file of its export as a download. The file list is
+// read from public/brand/<product>/ at build time, so a new export file appears without an edit.
+import { readdirSync } from 'node:fs';
+import { join } from 'node:path';
+import { withBase } from '../lib/url';
+import { hueOf, type Product } from '../data/projects';
+
+interface Props {
+	product: Product;
+}
+const { product } = Astro.props;
+const dir = join(process.cwd(), 'public', 'brand', product);
+const files = readdirSync(dir)
+	.filter((f) => f.endsWith('.svg'))
+	.sort();
+const has = (f: string) => files.includes(f);
+const src = (f: string) => withBase(`/brand/${product}/${f}`);
+const { hue, hueOnInk, name } = hueOf(product);
+const describe: Record<string, string> = {
+	'symbol.svg': 'Symbol, full colour (light grounds)',
+	'symbol-mono-ink.svg': 'Symbol, one colour, ink',
+	'symbol-mono-white.svg': 'Symbol, one colour, white',
+	'lockup.svg': 'Lockup, horizontal (light grounds)',
+	'lockup-dark.svg': 'Lockup, horizontal (dark grounds)',
+	'lockup-stacked.svg': 'Lockup, stacked (light grounds)',
+	'lockup-stacked-dark.svg': 'Lockup, stacked (dark grounds)',
+	'favicon.svg': 'Favicon, follows the browser theme',
+	'favicon-32.svg': 'Favicon, 32 px (5 × 5 grid)',
+	'favicon-16.svg': 'Favicon, 16 px (3 × 3 grid)',
+};
+---
+
+<section class="bq-brand-product not-content" id={`brand-${product}`} aria-labelledby={`brand-${product}-title`}>
+	<header>
+		<h3 id={`brand-${product}-title`}>{product}<span class="stop">.</span></h3>
+		<p class="hues">
+			<span class="chip" style={`--c: ${hue}`}></span>{name} <code>{hue}</code>
+			{
+				hueOnInk !== hue && (
+					<>
+						· on ink <span class="chip" style={`--c: ${hueOnInk}`} />
+						<code>{hueOnInk}</code>
+					</>
+				)
+			}
+		</p>
+	</header>
+
+	<div class="grounds">
+		<figure class="paper">
+			<img src={src('lockup.svg')} alt={`${product} by bloque, horizontal lockup on a light ground`} />
+			<figcaption>lockup.svg</figcaption>
+		</figure>
+		<figure class="ink">
+			<img src={src('lockup-dark.svg')} alt={`${product} by bloque, horizontal lockup on a dark ground`} />
+			<figcaption>lockup-dark.svg</figcaption>
+		</figure>
+		{
+			has('lockup-stacked.svg') && (
+				<figure class="paper stacked">
+					<img src={src('lockup-stacked.svg')} alt={`${product} by bloque, stacked lockup on a light ground`} />
+					<figcaption>lockup-stacked.svg</figcaption>
+				</figure>
+			)
+		}
+		{
+			has('lockup-stacked-dark.svg') && (
+				<figure class="ink stacked">
+					<img src={src('lockup-stacked-dark.svg')} alt={`${product} by bloque, stacked lockup on a dark ground`} />
+					<figcaption>lockup-stacked-dark.svg</figcaption>
+				</figure>
+			)
+		}
+	</div>
+
+	<div class="symbols">
+		<figure class="paper">
+			<div class="sizes">
+				<img src={src('symbol.svg')} width="96" height="96" alt={`${product} symbol at 96 px`} />
+				<img src={src('favicon-32.svg')} width="32" height="32" alt={`${product} symbol at 32 px`} />
+				<img src={src('favicon-16.svg')} width="16" height="16" alt={`${product} symbol at 16 px, 3 × 3 version`} />
+			</div>
+			<figcaption>96 · 32 · 16 px</figcaption>
+		</figure>
+		<figure class="paper">
+			<img src={src('symbol-mono-ink.svg')} width="64" height="64" alt={`${product} symbol, one colour, ink`} />
+			<figcaption>One colour, ink</figcaption>
+		</figure>
+		<figure class="ink">
+			<img src={src('symbol-mono-white.svg')} width="64" height="64" alt={`${product} symbol, one colour, white`} />
+			<figcaption>One colour, white</figcaption>
+		</figure>
+	</div>
+
+	<details class="downloads">
+		<summary>Download {product}'s files ({files.length} SVG)</summary>
+		<ul>
+			{
+				files.map((f) => (
+					<li>
+						<a href={src(f)} download={`${product}-${f}`}>
+							<code>{f}</code>
+						</a>
+						<span>{describe[f] ?? ''}</span>
+					</li>
+				))
+			}
+		</ul>
+	</details>
+</section>
+
+<style>
+	.bq-brand-product {
+		margin-block: 2.5rem;
+		padding: clamp(1.25rem, 3vw, 2rem);
+		border: 1px solid var(--sl-color-hairline);
+		border-radius: var(--bq-radius-card);
+		background: var(--bq-surface);
+		box-shadow: var(--bq-shadow);
+		scroll-margin-top: 5rem;
+	}
+	header {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 0.5rem 1.5rem;
+	}
+	h3 {
+		margin: 0;
+		font-family: var(--bq-font-display);
+		font-weight: 700;
+		font-size: var(--sl-text-3xl);
+		letter-spacing: -0.045em;
+		line-height: 1;
+		color: var(--sl-color-white);
+	}
+	.stop {
+		color: var(--sl-color-text-accent);
+	}
+	.hues {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.4rem;
+		margin: 0;
+		font-size: var(--sl-text-sm);
+		color: var(--sl-color-gray-2);
+	}
+	.chip {
+		display: inline-block;
+		width: 0.85rem;
+		height: 0.85rem;
+		border-radius: 4px;
+		background: var(--c);
+	}
+	code {
+		font-family: var(--__sl-font-mono);
+		font-size: var(--sl-text-xs);
+	}
+	figure {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 0.9rem;
+		margin: 0;
+		padding: 1.5rem 1.25rem 0.9rem;
+		border-radius: var(--bq-radius-field);
+		min-width: 0;
+	}
+	/* Fixed grounds: a mark is shown on the ground its file is made for, whatever the theme. */
+	.paper {
+		background: #ffffff;
+		border: 1px solid #e9e6f2;
+		--cap: #6d6982;
+	}
+	.ink {
+		background: #0d0c17;
+		border: 1px solid #2a2838;
+		--cap: #9a96ad;
+	}
+	figcaption {
+		font-family: var(--__sl-font-mono);
+		font-size: var(--sl-text-xs);
+		color: var(--cap);
+	}
+	.grounds {
+		display: grid;
+		gap: 0.75rem;
+		margin-top: 1.25rem;
+	}
+	@media (min-width: 50rem) {
+		.grounds {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+	.grounds img {
+		width: 100%;
+		max-width: 22rem;
+		height: auto;
+	}
+	.grounds .stacked img {
+		max-width: 8.5rem;
+	}
+	.symbols {
+		display: grid;
+		grid-template-columns: minmax(0, 2fr) repeat(2, minmax(0, 1fr));
+		gap: 0.75rem;
+		margin-top: 0.75rem;
+	}
+	@media (max-width: 34rem) {
+		.symbols {
+			grid-template-columns: minmax(0, 1fr);
+		}
+	}
+	.sizes {
+		display: flex;
+		align-items: flex-end;
+		gap: 1.5rem;
+	}
+	.downloads {
+		margin-top: 1.25rem;
+	}
+	.downloads summary {
+		cursor: pointer;
+		font-weight: 500;
+		color: var(--sl-color-text-accent);
+	}
+	.downloads ul {
+		display: grid;
+		gap: 0.35rem;
+		margin: 0.75rem 0 0;
+		padding: 0;
+		list-style: none;
+	}
+	.downloads li {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.25rem 0.75rem;
+		font-size: var(--sl-text-sm);
+		color: var(--sl-color-gray-3);
+	}
+	.downloads a {
+		color: var(--sl-color-text-accent);
+	}
+	.downloads a code {
+		color: inherit;
+	}
+</style>

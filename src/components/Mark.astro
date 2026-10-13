@@ -1,0 +1,46 @@
+---
+// A product's symbol, inlined from the logo export (public/brand/<product>/symbol.svg) so it can
+// follow the theme: the blocks take the product's hue (lifted on ink where the export says so) and
+// the round stop is ink on light grounds, white on ink. The geometry is the exported file's own.
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { hueOf, type Product } from '../data/projects';
+
+interface Props {
+	product: Product;
+	size?: number;
+	/** 'theme' follows the page; 'ink' always draws the on-ink colours (for ink panels). */
+	ground?: 'theme' | 'ink';
+	label?: string;
+}
+const { product, size = 48, ground = 'theme', label } = Astro.props;
+const { hue, hueOnInk } = hueOf(product);
+const raw = readFileSync(join(process.cwd(), 'public', 'brand', product, 'symbol.svg'), 'utf8');
+// Only the root element's size is dropped (the blocks keep theirs); the component sets its own.
+const svg = raw
+	.replace(/^<svg[^>]*>/, (tag) => tag.replace(/\s(width|height)="[^"]*"/g, ''))
+	.replaceAll(`fill="${hue}"`, 'fill="var(--mark-hue)"')
+	.replaceAll('fill="#0d0c17"', 'fill="var(--mark-stop)"')
+	.replace('<svg ', `<svg width="${size}" height="${size}" ${label ? `role="img" aria-label="${label}"` : 'aria-hidden="true"'} `);
+---
+
+<span
+	class:list={['bq-mark', ground === 'ink' && 'on-ink']}
+	style={`--hue: ${hue}; --hue-ink: ${hueOnInk};`}
+	set:html={svg}
+/>
+
+<style>
+	.bq-mark {
+		display: inline-flex;
+		flex: none;
+		line-height: 0;
+		/* Starlight's :root is its dark theme; light is [data-theme='light']. */
+		--mark-hue: var(--hue-ink);
+		--mark-stop: #ffffff;
+	}
+	:global(:root[data-theme='light']) .bq-mark:not(.on-ink) {
+		--mark-hue: var(--hue);
+		--mark-stop: #0d0c17;
+	}
+</style>

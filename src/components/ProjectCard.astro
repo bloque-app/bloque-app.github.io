@@ -1,0 +1,124 @@
+---
+// One project on the home page: its mark, name, one sentence, status and links. Links that start
+// with "/" are other sites under the Pages root (e.g. /aledgent/), not pages of this one.
+import Mark from './Mark.astro';
+import type { Project } from '../data/projects';
+
+interface Props {
+	project: Project;
+}
+const { project: p } = Astro.props;
+---
+
+<article class="card bq-project" id={p.id}>
+	<header>
+		<Mark product={p.id} size={44} />
+		<div>
+			<h3>{p.id}<span class="stop">.</span></h3>
+			<p class="role">{p.role}</p>
+		</div>
+	</header>
+	<p class="summary">{p.summary}</p>
+	<p class:list={['status', p.stage]}><span class="dot" aria-hidden="true"></span>{p.status}</p>
+	<div class="links">
+		{
+			p.links.length > 0 ? (
+				p.links.map((l) => (
+					<a href={l.href}>
+						{l.label}
+						{l.note && <span class="note"> ({l.note})</span>} →
+					</a>
+				))
+			) : (
+				<span class="none">Docs and code when it opens</span>
+			)
+		}
+	</div>
+</article>
+
+<style>
+	.bq-project {
+		display: flex;
+		flex-direction: column;
+		gap: 0.9rem;
+		scroll-margin-top: 5rem;
+	}
+	header {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+	}
+	h3 {
+		margin: 0;
+		font-family: var(--bq-font-display);
+		font-weight: 700;
+		font-size: var(--sl-text-2xl);
+		line-height: 1;
+		letter-spacing: -0.045em;
+		color: var(--sl-color-white);
+	}
+	.stop {
+		color: var(--sl-color-text-accent);
+	}
+	.role {
+		margin: 0.3rem 0 0;
+		font-family: var(--__sl-font-mono);
+		font-size: var(--sl-text-xs);
+		color: var(--sl-color-gray-3);
+	}
+	.summary {
+		margin: 0;
+		color: var(--sl-color-gray-2);
+		line-height: 1.6;
+	}
+	.status {
+		display: inline-flex;
+		align-self: flex-start;
+		align-items: center;
+		gap: 0.5rem;
+		margin: 0;
+		padding: 0.25rem 0.75rem;
+		border-radius: var(--bq-radius-pill);
+		border: 1px solid var(--sl-color-hairline);
+		background: var(--sl-color-bg-inline-code);
+		font-size: var(--sl-text-xs);
+		font-weight: 500;
+		color: var(--sl-color-gray-2);
+	}
+	.dot {
+		width: 0.45rem;
+		height: 0.45rem;
+		border-radius: 50%;
+		background: var(--sl-color-gray-3);
+	}
+	.status.live .dot {
+		background: #00cc66;
+	}
+	.status.open .dot {
+		background: var(--sl-color-text-accent);
+	}
+	.links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem 1.25rem;
+		margin-top: auto;
+		padding-top: 0.25rem;
+	}
+	.links a {
+		font-weight: 500;
+		color: var(--sl-color-text-accent);
+		text-decoration: none;
+	}
+	.links a:hover {
+		text-decoration: underline;
+		text-underline-offset: 0.18em;
+	}
+	.note {
+		font-weight: 400;
+		color: var(--sl-color-gray-3);
+	}
+	.none {
+		font-size: var(--sl-text-sm);
+		color: var(--sl-color-gray-3);
+	}
+</style>

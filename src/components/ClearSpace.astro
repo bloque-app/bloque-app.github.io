@@ -1,0 +1,74 @@
+---
+// Clear space and minimum sizes, drawn on the grid the marks are built on: a 96-unit symbol is
+// 5 blocks of 16 with gaps of 4, so one block (16/96, a sixth of the symbol's height) is the unit.
+import { withBase } from '../lib/url';
+---
+
+<div class="bq-clear not-content">
+	<figure>
+		<div class="frame symbol">
+			<img src={withBase('/brand/aledgent/symbol.svg')} width="96" height="96" alt="aledgent symbol with its clear space" />
+		</div>
+		<figcaption>Symbol: one block (⅙ of its height) clear on every side</figcaption>
+	</figure>
+	<figure>
+		<div class="frame lockup">
+			<img src={withBase('/brand/aledgent/lockup.svg')} height="64" alt="aledgent lockup with its clear space" />
+		</div>
+		<figcaption>Lockup: one block of the symbol it carries, clear on every side</figcaption>
+	</figure>
+</div>
+
+<style>
+	.bq-clear {
+		display: grid;
+		gap: 0.75rem;
+		margin-block: 1.5rem;
+	}
+	@media (min-width: 50rem) {
+		.bq-clear {
+			grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+		}
+	}
+	figure {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.9rem;
+		margin: 0;
+		padding: 1.5rem 1rem 1rem;
+		border: 1px solid #e9e6f2;
+		border-radius: var(--bq-radius-field);
+		background: #ffffff;
+		min-width: 0;
+	}
+	.frame {
+		/* The dashed box is the clear space. One module = one block + one gap = 20/96 of the mark's height:
+		   1 module around the symbol, 2 around a lockup. */
+		outline: 1px dashed #a78bfa;
+		background: repeating-linear-gradient(45deg, #ece6ff 0 4px, transparent 4px 8px);
+		line-height: 0;
+		max-width: 100%;
+	}
+	.frame img {
+		background: #ffffff;
+		max-width: 100%;
+		height: auto;
+	}
+	.symbol {
+		padding: 20px;
+	}
+	.lockup {
+		padding: calc(64px * 40 / 96);
+	}
+	.lockup img {
+		width: 354px; /* 64 px tall */
+		max-width: 100%;
+		height: auto;
+	}
+	figcaption {
+		font-size: var(--sl-text-xs);
+		color: #6d6982;
+		text-align: center;
+	}
+</style>

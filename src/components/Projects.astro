@@ -1,0 +1,21 @@
+---
+import ProjectCard from './ProjectCard.astro';
+import { projects } from '../data/projects';
+---
+
+<div class="bq-projects not-content">
+	{projects.map((p) => <ProjectCard project={p} />)}
+</div>
+
+<style>
+	.bq-projects {
+		display: grid;
+		gap: 1rem;
+		margin-top: 1.5rem;
+	}
+	@media (min-width: 50rem) {
+		.bq-projects {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+</style>
