@@ -23,6 +23,14 @@ export default defineConfig({
 				replacesTitle: false,
 			},
 			favicon: '/favicon.svg',
+			// Link previews (Slack, social): one card for every page, served from public/og.png.
+			head: [
+				{ tag: 'meta', attrs: { property: 'og:image', content: 'https://bloque-app.github.io/og.png' } },
+				{ tag: 'meta', attrs: { property: 'og:image:width', content: '1200' } },
+				{ tag: 'meta', attrs: { property: 'og:image:height', content: '630' } },
+				{ tag: 'meta', attrs: { name: 'twitter:card', content: 'summary_large_image' } },
+				{ tag: 'meta', attrs: { name: 'twitter:image', content: 'https://bloque-app.github.io/og.png' } },
+			],
 			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/bloque-app' }],
 			editLink: { baseUrl: 'https://github.com/bloque-app/bloque-app.github.io/edit/main/' },
 			defaultLocale: 'root',
