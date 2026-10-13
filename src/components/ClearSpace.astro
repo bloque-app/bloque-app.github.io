@@ -43,7 +43,8 @@ import { withBase } from '../lib/url';
 		min-width: 0;
 	}
 	.frame {
-		/* The dashed box is the clear space: padding = one block at the size shown. */
+		/* The dashed box is the clear space. One module = one block + one gap = 20/96 of the mark's height:
+		   1 module around the symbol, 2 around a lockup. */
 		outline: 1px dashed #a78bfa;
 		background: repeating-linear-gradient(45deg, #ece6ff 0 4px, transparent 4px 8px);
 		line-height: 0;
@@ -55,10 +56,10 @@ import { withBase } from '../lib/url';
 		height: auto;
 	}
 	.symbol {
-		padding: 16px;
+		padding: 20px;
 	}
 	.lockup {
-		padding: calc(64px / 6);
+		padding: calc(64px * 40 / 96);
 	}
 	.lockup img {
 		width: 354px; /* 64 px tall */
