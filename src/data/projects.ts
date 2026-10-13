@@ -33,11 +33,11 @@ export const projects: Project[] = [
 		role: 'Ledger',
 		summary:
 			"Bloque's ledger (Agent + ledger): a book that anyone it concerns can check against a public anchor on Kreivo.",
-		status: 'In production at Bloque since 12 October 2026 · repository going public',
+		status: 'In production at Bloque since 12 October 2026 · open source since 13 October 2026',
 		stage: 'live',
 		links: [
 			{ label: 'Docs', href: '/aledgent/' },
-			{ label: 'Repository', href: 'https://github.com/bloque-app/aledgent', note: 'going public' },
+			{ label: 'Repository', href: 'https://github.com/bloque-app/aledgent' },
 		],
 	},
 	{
