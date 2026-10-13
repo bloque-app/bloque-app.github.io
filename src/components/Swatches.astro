@@ -1,0 +1,99 @@
+---
+// The family's colours, from the logo export and the round-8 colour check. Each swatch shows the
+// light-ground fill and, where it differs, the fill used on ink.
+import { colours } from '../data/projects';
+---
+
+<div class="bq-swatches not-content">
+	{
+		colours.map((c) => (
+			<div class="swatch">
+				<div class="fills">
+					<span class="fill" style={`background: ${c.hue}`} />
+					<span class="fill on-ink" style={`--c: ${c.hueOnInk}`}>
+						<span class="dot" />
+					</span>
+				</div>
+				<p class="who">
+					{c.id}
+					<span class="stop">.</span>
+				</p>
+				<p class="name">
+					{c.name} <code>{c.hue}</code>
+					{c.hueOnInk !== c.hue && (
+						<>
+							{' '}
+							· ink <code>{c.hueOnInk}</code>
+						</>
+					)}
+				</p>
+				<p class="contrast">{c.contrast}</p>
+				{c.note && <p class="note">{c.note}</p>}
+			</div>
+		))
+	}
+</div>
+
+<style>
+	.bq-swatches {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(10.5rem, 1fr));
+		gap: 0.75rem;
+		margin-block: 1.5rem;
+	}
+	.swatch {
+		display: flex;
+		flex-direction: column;
+		gap: 0.3rem;
+		padding: 0.75rem;
+		border: 1px solid var(--sl-color-hairline);
+		border-radius: var(--bq-radius-field);
+		background: var(--bq-surface);
+	}
+	.fills {
+		display: grid;
+		grid-template-columns: 2fr 1fr;
+		height: 4.5rem;
+		margin-bottom: 0.4rem;
+		border-radius: 12px;
+		overflow: hidden;
+	}
+	.fill.on-ink {
+		display: grid;
+		place-items: center;
+		background: #0d0c17;
+	}
+	.dot {
+		width: 1.25rem;
+		height: 1.25rem;
+		border-radius: 6px;
+		background: var(--c);
+	}
+	p {
+		margin: 0;
+	}
+	.who {
+		font-family: var(--bq-font-display);
+		font-weight: 700;
+		font-size: var(--sl-text-lg);
+		letter-spacing: -0.04em;
+		color: var(--sl-color-white);
+	}
+	.stop {
+		color: var(--sl-color-text-accent);
+	}
+	.name {
+		font-size: var(--sl-text-sm);
+		color: var(--sl-color-gray-2);
+	}
+	code {
+		font-family: var(--__sl-font-mono);
+		font-size: var(--sl-text-xs);
+	}
+	.contrast,
+	.note {
+		font-size: var(--sl-text-xs);
+		line-height: 1.45;
+		color: var(--sl-color-gray-3);
+	}
+</style>

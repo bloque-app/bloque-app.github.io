@@ -1,0 +1,27 @@
+---
+// Wraps Starlight's own footer (edit link, last updated, pagination) and adds the licence line
+// to every page. Nothing of the default footer is copied.
+import Default from '@astrojs/starlight/components/Footer.astro';
+import { withBase } from '../lib/url';
+---
+
+<Default />
+<p class="bq-legal">
+	© 2026 Pagos Cube LLC · Site code: MIT · The names and marks of Bloque and its products belong
+	to Pagos Cube LLC and are not licensed with the code (<a
+		href={withBase('/open-source/#names-and-marks')}>names and marks</a
+	>).
+</p>
+
+<style>
+	.bq-legal {
+		margin-top: 2.5rem;
+		padding-top: 1.25rem;
+		border-top: 1px solid var(--sl-color-hairline);
+		font-size: var(--sl-text-xs);
+		color: var(--sl-color-gray-3);
+	}
+	.bq-legal a {
+		color: inherit;
+	}
+</style>

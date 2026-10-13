@@ -1,0 +1,79 @@
+---
+title: Brand
+description: The family's marks, lockups and colours, how to use them, and the files to download.
+---
+
+import BrandProduct from '../../components/BrandProduct.astro';
+import Swatches from '../../components/Swatches.astro';
+import ClearSpace from '../../components/ClearSpace.astro';
+
+Bloque's open-source projects are one family. Every mark follows the same grammar: rounded square
+blocks in the product's hue and one round stop, on a 5 × 5 grid from 32 px up and a 3 × 3 grid
+below. Each silhouette says what the product does, so the marks stay distinct without colour. The
+violet full stop closes every wordmark, with "by bloque" beneath or beside it.
+
+| Product | The mark |
+| --- | --- |
+| **aledgent** | The ledger: the book, closed. |
+| **bezent** | The bridge: a span over two piers. |
+| **rutent** | The ramp: two lanes, in and out. |
+| **evmhot** | Hot wallets: every address, one centre. |
+| **next** | Reserved. Mint is held for the next product; it has no mark yet. |
+
+The names are set in Familjen Grotesk 700, tracked at −0.045em. Bloque's own wordmark is plain
+"bloque" in the same face; this site's icon is a "b" drawn on the family's grid, closed by the
+violet stop.
+
+## Colours
+
+<Swatches />
+
+Orange and mint are light on white (2.61 and 2.14 : 1), so they work as block masses and never as
+text or thin details. On ink, aledgent's violet becomes lilac `#a78bfa` and evmhot's crimson is
+lifted to `#e8475f`; the stop turns white. Violet and sky, and orange or crimson and mint, merge for
+some colour-blind readers, which is why every silhouette differs: hue is only the second cue.
+
+The neutral grounds are Bloque's: ink `#0d0c17`, paper `#fbfaff` and white. The "by" of "by bloque"
+is `#6d6982` on light grounds and `#9a96ad` on ink.
+
+## Clear space and minimum sizes
+
+<ClearSpace />
+
+- **Clear space**: keep one block of the grid clear around the symbol or the lockup, on every side.
+  A block is a sixth of the symbol's height: 16 px around a 96 px symbol.
+- **Symbol**: the 5 × 5 symbol at **32 px or more**. Below 32 px, use the 3 × 3 version
+  (`favicon-16.svg`), never the 5 × 5 one scaled down. Nothing smaller than 16 px.
+- **Lockup**: at least **40 px** tall on screen (about 15 mm in print), so that "by bloque" stays
+  legible. Smaller than that, use the symbol alone.
+
+## Do and don't
+
+**Do**
+
+- Use the files below as they are, on the ground they are made for: `lockup.svg` and `symbol.svg`
+  on light grounds, `lockup-dark.svg` on dark ones.
+- Use a one-colour version (ink or white) where the product's hue cannot be printed or would clash.
+- Keep the clear space, and keep the marks above their minimum sizes.
+
+**Don't**
+
+- Recolour a mark, swap one product's hue for another's, or put a mark in a gradient.
+- Stretch, rotate, outline, shadow or re-draw a mark, or move, add or remove a block.
+- Set the wordmark in another typeface, or drop the stop or "by bloque" from a lockup.
+- Put a full-colour mark on a busy photo or a ground of a similar hue.
+- Use a mark for a fork or for a product that is not Bloque's (see
+  [names and marks](../open-source/#names-and-marks)).
+
+## The marks
+
+Each file is an SVG with outlined text, so it needs no font. They are served from this site, under
+`/brand/<product>/`.
+
+<BrandProduct product="aledgent" />
+<BrandProduct product="bezent" />
+<BrandProduct product="rutent" />
+<BrandProduct product="evmhot" />
+
+The marks are not covered by this site's MIT licence or by any project's licence; see
+[names and marks](../open-source/#names-and-marks).

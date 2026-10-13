@@ -1,0 +1,59 @@
+---
+title: Open source at Bloque
+description: Licences, how to report a security issue, how to contribute, and what the code's licence does not cover.
+---
+
+Bloque opens the systems its financial services run on, so that the people they concern can read
+them, run them and check them. This page covers what is common to every project. Each repository's
+own files are authoritative for that project.
+
+## Licences
+
+Each project carries its own `LICENSE` file, and that file is what applies to it.
+
+| Project | Licence |
+| --- | --- |
+| [aledgent](https://github.com/bloque-app/aledgent) | Apache-2.0 OR MIT, at your option. The Agent under `agents/` is AGPL-3.0-or-later, and the documentation is CC-BY-4.0; each file says which applies in its SPDX header. |
+| [evmhot](https://github.com/bloque-app/evmhot) | **TODO (Pablo):** the repository has no `LICENSE` file yet. Until it has one, no licence is granted. |
+| bezent, rutent | In design: no code published yet. |
+| This site ([bloque-app.github.io](https://github.com/bloque-app/bloque-app.github.io)) | MIT for the site's code. The brand assets under `public/brand/` are not covered (see [names and marks](#names-and-marks)). |
+
+## Reporting a security issue
+
+**Do not open a public issue, discussion or pull request for a security problem.**
+
+- **In a project's repository**: use GitHub's private vulnerability reporting. On the repository's
+  _Security_ tab, choose _Report a vulnerability_. That opens an advisory that only you and the
+  maintainers can see. A project's `SECURITY.md`, where it has one, gives its response times and
+  scope; aledgent's is in [its repository](https://github.com/bloque-app/aledgent/blob/main/SECURITY.md).
+- **Anything else, or if you cannot use GitHub**: write to <code>security@TODO</code>.
+  **TODO (Pablo): set the organisation-wide security contact (address, and a PGP key if we publish one).**
+
+Please do not test against Bloque's live services. Every project can be run locally for that.
+
+## Contributing
+
+Contributions are welcome, through pull requests on each project's repository. Read the project's
+`CONTRIBUTING` first: it says how a change is proposed, reviewed and tested there.
+
+- [aledgent: CONTRIBUTING.md](https://github.com/bloque-app/aledgent/blob/main/CONTRIBUTING.md)
+- evmhot: no `CONTRIBUTING` yet; open an issue on [the repository](https://github.com/bloque-app/evmhot) first.
+  {/* TODO(Pablo): add CONTRIBUTING.md (with the DCO sign-off) to evmhot. */}
+
+Every commit carries a `Signed-off-by:` line with your real name and email. It certifies the
+[Developer Certificate of Origin 1.1](https://developercertificate.org/): that you wrote the change,
+or have the right to submit it under the project's licence. `git commit -s` adds it. Contributions
+are accepted under the licence of the files they change. There is no separate contributor licence
+agreement.
+
+## Names and marks
+
+The code is open; the names and marks are not. "Bloque", "aledgent", "bezent", "rutent", "evmhot",
+their symbols and lockups, and the "by bloque" signature belong to Pagos Cube LLC (Bloque), and no
+open-source licence of any project grants rights to them.
+
+You may use the names to refer to the projects truthfully, for example to say that your software
+works with aledgent, or that it is a fork of it. A fork or a product built on the code needs a name
+and a mark of its own, and must not suggest that Bloque made, endorses or supports it. The
+[Brand](../brand/) page has the files and the rules for using the marks when you write about the
+projects.

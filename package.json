@@ -1,0 +1,26 @@
+{
+  "name": "bloque-oss-hub",
+  "private": true,
+  "type": "module",
+  "version": "0.0.0",
+  "description": "Bloque Open Source: the hub site for Bloque's open-source projects (bloque-app.github.io).",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/markdown-satteri": "0.4.2",
+    "@astrojs/starlight": "0.42.4",
+    "@fontsource/familjen-grotesk": "5.3.0",
+    "@fontsource/geist": "5.3.0",
+    "@fontsource/geist-mono": "5.3.0",
+    "astro": "7.3.5",
+    "sharp": "0.35.5"
+  }
+}

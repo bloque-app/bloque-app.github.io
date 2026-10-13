@@ -1,0 +1,62 @@
+name: Pages
+
+# Bloque Open Source (this repository) is the organisation's Pages root: https://bloque-app.github.io/.
+# Builds on every PR; deploys to GitHub Pages from main, and only while the repository is public.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.ref }}
+  # A newer push supersedes a PR build; never cancel a deploy in flight.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    env:
+      # The organisation's root site is served at "/"; project sites live under /<repo>/.
+      SITE_URL: https://bloque-app.github.io
+      SITE_BASE: /
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Upload the site for Pages
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  # Deploys only from the public repository. While it is private (GitHub Free cannot publish Pages
+  # from a private repository) this job is skipped, so a push to main cannot fail or publish by
+  # accident (`visibility` is absent or 'private' then, and either fails the comparison). Pages
+  # must be set to deploy from "GitHub Actions".
+  deploy:
+    name: deploy
+    needs: build
+    if: >-
+      github.event_name != 'pull_request' &&
+      github.ref == 'refs/heads/main' &&
+      github.repository == 'bloque-app/bloque-app.github.io' &&
+      github.event.repository.visibility == 'public'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
