@@ -45,9 +45,9 @@ export const projects: Project[] = [
 		role: 'Reserve bridge',
 		summary:
 			'Moves value between chains and off-chain reserves, and issues 1:1-backed assets: bUSDc, bEURc and bBTC.',
-		status: 'In design',
-		stage: 'design',
-		links: [],
+		status: 'Open source since 17 October 2026 · in development, not yet in production',
+		stage: 'open',
+		links: [{ label: 'Repository', href: 'https://github.com/bloque-app/bezent' }],
 	},
 	{
 		id: 'rutent',
